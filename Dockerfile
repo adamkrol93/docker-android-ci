@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk
-MAINTAINER Greyson Parrelli <greyson.parrelli@gmail.com>
+MAINTAINER Woraphot Chokratanasombat <guhungry@gmail.com>
 
 ENV ANDROID_TARGET_SDK="24" \
     ANDROID_BUILD_TOOLS="24.0.3" \
