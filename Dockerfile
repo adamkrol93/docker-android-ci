@@ -2,21 +2,29 @@ FROM openjdk:8-jdk
 MAINTAINER Woraphot Chokratanasombat <guhungry@gmail.com>
 
 ENV ANDROID_TARGET_SDK="25" \
-    ANDROID_BUILD_TOOLS="25.0.0" \
-    ANDROID_SDK_TOOLS="25.2.2" \
-    ANDROID_HOME=$PWD/android-sdk-linux
+    ANDROID_BUILD_TOOLS="25.0.0"
 
+# Update and Install Package
 RUN apt-get --quiet update --yes
-RUN apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+RUN apt-get --quiet install --yes curl tar lib32stdc++6 lib32z1
 
-RUN mkdir $ANDROID_HOME && \
-    wget --quiet --output-document=tools.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip && \
-    unzip tools.zip -d $ANDROID_HOME && \
-    rm tools.zip
+# Install Android SDK
+# https://developer.android.com/studio/index.html
+ENV ANDROID_SDK_ZIP https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
+RUN curl -L $ANDROID_SDK_ZIP | tar zxv -C /
 
-RUN echo y | $ANDROID_HOME/tools/android --silent update sdk --no-ui --all --filter android-${ANDROID_TARGET_SDK} && \
-    echo y | $ANDROID_HOME/tools/android --silent update sdk --no-ui --all --filter platform-tools && \
-    echo y | $ANDROID_HOME/tools/android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS} && \
-    echo y | $ANDROID_HOME/tools/android --silent update sdk --no-ui --all --filter extra-android-m2repository && \
-    echo y | $ANDROID_HOME/tools/android --silent update sdk --no-ui --all --filter extra-google-google_play_services && \
-    echo y | $ANDROID_HOME/tools/android --silent update sdk --no-ui --all --filter extra-google-m2repository
+ENV ANDROID_HOME /android-sdk-linux
+ENV PATH $PATH:$ANDROID_HOME/tools
+ENV PATH $PATH:$ANDROID_HOME/platform-tools
+
+# Update Android SDK
+RUN echo y | android --silent update sdk --no-ui --all --filter tools && \
+    echo y | android --silent update sdk --no-ui --all --filter platform-tools && \
+    echo y | android --silent update sdk --no-ui --all --filter extra-android-support && \
+    echo y | android --silent update sdk --no-ui --all --filter extra-android-m2repository && \
+    echo y | android --silent update sdk --no-ui --all --filter extra-google-google_play_services && \
+    echo y | android --silent update sdk --no-ui --all --filter extra-google-m2repository
+
+# Update Platform & Build Tools
+RUN echo y | android --silent update sdk --no-ui --all --filter android-${ANDROID_TARGET_SDK} && \
+    echo y | android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS}
