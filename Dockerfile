@@ -9,14 +9,17 @@ ENV ANDROID_TARGET_SDK="26" \
 RUN apt-get --quiet update --yes
 RUN apt-get --quiet install --yes curl tar lib32stdc++6 lib32z1
 
-# Install Android SDK
-# https://developer.android.com/studio/index.html
-ENV ANDROID_SDK_ZIP https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_REV}.zip
-RUN curl -L $ANDROID_SDK_ZIP | tar zxv -C /
-
+# Environment
 ENV ANDROID_HOME /android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools
 ENV PATH $PATH:$ANDROID_HOME/platform-tools
+
+# Install Android SDK
+# https://developer.android.com/studio/index.html
+ENV ANDROID_SDK_ZIP https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_REV}.zip
+RUN mkdir ${ANDROID_HOME}
+RUN curl -L $ANDROID_SDK_ZIP -o temp.zip && unzip -qq temp.zip -d ${ANDROID_HOME} && rm temp.zip
+
 
 # Update Android SDK
 RUN echo y | android --silent update sdk --no-ui --all --filter tools && \
