@@ -22,13 +22,13 @@ RUN curl -L $ANDROID_SDK_ZIP -o temp.zip && unzip -qq temp.zip -d ${ANDROID_HOME
 
 
 # Update Android SDK
-RUN echo y | android --silent update sdk --no-ui --all --filter tools && \
-    echo y | android --silent update sdk --no-ui --all --filter platform-tools && \
-    echo y | android --silent update sdk --no-ui --all --filter extra-android-support && \
-    echo y | android --silent update sdk --no-ui --all --filter extra-android-m2repository && \
-    echo y | android --silent update sdk --no-ui --all --filter extra-google-google_play_services && \
-    echo y | android --silent update sdk --no-ui --all --filter extra-google-m2repository
+RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager --update && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  tools && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  platform-tools && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;android;m2repository' && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;google_play_services' && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;m2repository'
 
 # Update Platform & Build Tools
-RUN echo y | android --silent update sdk --no-ui --all --filter android-${ANDROID_TARGET_SDK} && \
-    echo y | android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS}
+RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager  'platforms;android-'${ANDROID_TARGET_SDK} && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'build-tools;'${ANDROID_BUILD_TOOLS}
