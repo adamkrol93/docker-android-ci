@@ -2,7 +2,8 @@ FROM openjdk:8-jdk
 MAINTAINER Woraphot Chokratanasombat <guhungry@gmail.com>
 
 ENV ANDROID_TARGET_SDK="26" \
-    ANDROID_BUILD_TOOLS="26.0.2"
+    ANDROID_BUILD_TOOLS="26.0.2" \
+    ANDROID_SDK_TOOLS_REV="3859397"
 
 # Update and Install Package
 RUN apt-get --quiet update --yes
@@ -10,7 +11,7 @@ RUN apt-get --quiet install --yes curl tar lib32stdc++6 lib32z1
 
 # Install Android SDK
 # https://developer.android.com/studio/index.html
-ENV ANDROID_SDK_ZIP https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
+ENV ANDROID_SDK_ZIP https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_REV}.zip
 RUN curl -L $ANDROID_SDK_ZIP | tar zxv -C /
 
 ENV ANDROID_HOME /android-sdk-linux
