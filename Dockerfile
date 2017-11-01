@@ -27,8 +27,9 @@ RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager --update && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  platform-tools && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;android;m2repository' && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;google_play_services' && \
-    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;m2repository'
-
-# Update Platform & Build Tools
-RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager  'platforms;android-'${ANDROID_TARGET_SDK} && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;m2repository' && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'platforms;android-'${ANDROID_TARGET_SDK} && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  'build-tools;'${ANDROID_BUILD_TOOLS}
+
+# Accept Licenses
+RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager --licenses
