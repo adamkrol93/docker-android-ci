@@ -1,8 +1,8 @@
 FROM openjdk:8-jdk
 MAINTAINER Woraphot Chokratanasombat <guhungry@gmail.com>
 
-ENV ANDROID_TARGET_SDK="25" \
-    ANDROID_BUILD_TOOLS="25.0.2"
+ENV ANDROID_TARGET_SDK="26" \
+    ANDROID_BUILD_TOOLS="26.0.2"
 
 # Update and Install Package
 RUN apt-get --quiet update --yes
