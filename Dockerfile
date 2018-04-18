@@ -1,8 +1,8 @@
 FROM openjdk:8-jdk
 MAINTAINER Woraphot Chokratanasombat <guhungry@gmail.com>
 
-ENV ANDROID_TARGET_SDK="26" \
-    ANDROID_BUILD_TOOLS="26.0.3" \
+ENV ANDROID_TARGET_SDK="27" \
+    ANDROID_BUILD_TOOLS="27.0.0" \
     ANDROID_SDK_TOOLS_REV="3859397"
 
 # Update and Install Package
@@ -29,7 +29,8 @@ RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager --update && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;google_play_services' && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  'extras;google;m2repository' && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager  'platforms;android-'${ANDROID_TARGET_SDK} && \
-    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'build-tools;'${ANDROID_BUILD_TOOLS}
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'build-tools;'${ANDROID_BUILD_TOOLS} && \
+    echo y | $ANDROID_HOME/tools/bin/sdkmanager  'ndk-bundle' 
 
 # Accept Licenses
 RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager --licenses
